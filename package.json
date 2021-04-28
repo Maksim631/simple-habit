@@ -1,0 +1,32 @@
+{
+  "name": "simple-habit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r dotenv/config ./src/index.js",
+    "start:watch": "nodemon ./src/index.js dev --exec \"node -r dotenv/config\"",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maksim631/simple-habit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Maksim631/simple-habit/issues"
+  },
+  "homepage": "https://github.com/Maksim631/simple-habit#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "fastify": "^3.15.0",
+    "mongodb": "^3.6.6"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "jest-mock-axios": "^4.3.0",
+    "nodemon": "^2.0.7"
+  }
+}

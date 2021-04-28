@@ -1,0 +1,15 @@
+version: "2"
+services:
+  gphoto_bot:
+    container_name: gphoto_bot
+    restart: always
+    build: .
+    ports:
+      - "22000:22000"
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27018:27017"
