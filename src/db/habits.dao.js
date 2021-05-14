@@ -1,5 +1,4 @@
-import { getConnection } from './index';
+import { getConnection } from './index.js';
 
-const client = getConnection();
+const client = await getConnection().collection('habits');
 
-// TODO

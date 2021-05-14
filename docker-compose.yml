@@ -1,7 +1,7 @@
 version: "2"
 services:
-  gphoto_bot:
-    container_name: gphoto_bot
+  simple_habit:
+    container_name: simple-habit
     restart: always
     build: .
     ports:
@@ -9,7 +9,7 @@ services:
     links:
       - mongo
   mongo:
-    container_name: mongo
+    container_name: simple-habit-mongo
     image: mongo
     ports:
       - "27018:27017"

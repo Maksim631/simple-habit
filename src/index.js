@@ -1,11 +1,25 @@
 import fastify from 'fastify'
-
 import config from './config.js'
+import jwt from 'jsonwebtoken'
 
 import usersRoutes from './routes/users.router.js'
 import habitsRoutes from './routes/habits.router.js'
 
 const app = fastify({ logger: true })
+
+app.decorate('authenticate', async function (request, reply, done) {
+  try {
+    const isJWTValid = await jwt.verify(request.headers.authorization, process.env.JWT_KEY)
+    console.log(isJWTValid)
+    done()
+  } catch (err) {
+    if (err instanceof jwt.JsonWebTokenError) {
+      reply.status(401).send();
+    } else{
+      reply.status(500).send()
+    }
+  }
+})
 
 app.register(usersRoutes, { prefix: '/api/v1/users' })
 app.register(habitsRoutes, { prefix: '/api/v1/habits' })
