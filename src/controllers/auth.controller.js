@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid'
 import * as usersDAO from '../db/users.dao.js'
 import * as refreshDAO from '../db/refresh-tokens.dao.js'
 
+import codes from '../utils/status-codes.js'
+
 async function issueTokenPair(userId) {
   const newRefreshToken = uuidv4()
   await refreshDAO.add(newRefreshToken, userId)
@@ -20,7 +22,7 @@ export async function register(request, reply) {
   const user = request.body
   const isAlreadyExist = await usersDAO.find(user.name)
   if (!!isAlreadyExist) {
-    reply.code(403).send()
+    reply.code(codes.FORBIDDEN).send()
   } else {
     if (user.password === user.confirmedPassword) {
       const salt = await bcrypt.genSalt(10)
@@ -30,9 +32,9 @@ export async function register(request, reply) {
         email: user.email,
         password,
       })
-      reply.status(200).send()
+      reply.status(codes.OK).send()
     } else {
-      reply.code(409).send()
+      reply.code(codes.CONFLICT).send()
     }
   }
 }
@@ -41,7 +43,7 @@ export async function login(request, reply) {
   const user = request.body
   const dbUser = await usersDAO.find(user.email)
   if (!dbUser) {
-    reply.code(403).send()
+    reply.code(codes.FORBIDDEN).send()
   } else {
     const isPasswordCorrect = await bcrypt.compare(
       user.password,
@@ -49,9 +51,9 @@ export async function login(request, reply) {
     )
     if (isPasswordCorrect) {
       const response = await issueTokenPair(dbUser._id)
-      reply.code(200).send(response)
+      reply.code(codes.OK).send(response)
     } else {
-      reply.code(403).send()
+      reply.code(codes.FORBIDDEN).send()
     }
   }
 }
@@ -60,16 +62,16 @@ export async function refresh(request, reply) {
   const { refreshToken } = request.body
   const dbToken = refreshDAO.find(refreshToken)
   if (!dbToken) {
-    reply.code(403).send()
+    reply.code(codes.FORBIDDEN).send()
   } else {
     await refreshDAO.remove(refreshToken)
     const response = await issueTokenPair(dbToken.userId)
-    reply.code(200).send(response)
+    reply.code(codes.OK).send(response)
   }
 }
 
 export async function logout(request, reply) {
   const { userId } = request.body
   await refreshDAO.remove(userId)
-  reply.code(200).send()
+  reply.code(codes.OK).send()
 }

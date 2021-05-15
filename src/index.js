@@ -6,6 +6,8 @@ import usersRoutes from './routes/users.router.js'
 import authRoutes from './routes/auth.router.js'
 import habitsRoutes from './routes/habits.router.js'
 
+import codes from './utils/status-codes.js'
+
 const app = fastify({ logger: true })
 
 app.decorate('authenticate', async function (request, reply, done) {
@@ -14,9 +16,9 @@ app.decorate('authenticate', async function (request, reply, done) {
     done()
   } catch (err) {
     if (err instanceof jwt.JsonWebTokenError) {
-      reply.status(401).send()
+      reply.status(codes.UNAUTHORIZED).send()
     } else {
-      reply.status(500).send()
+      reply.status(codes.INTERNAL_SERVER_ERROR).send()
     }
   }
 })
