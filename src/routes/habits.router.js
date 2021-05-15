@@ -1,8 +1,33 @@
 import * as habitsController from '../controllers/habits.controller.js'
 
 export default function (fastify, opts, done) {
-  fastify.post('/habits', habitsController.stub)
-  fastify.delete('/habits/:habitId', habitsController.stub)
-  fastify.put('/habits', habitsController.stub)
+  fastify.post(
+    '/',
+    {
+      preValidation: [fastify.authenticate],
+    },
+    habitsController.create,
+  )
+  fastify.put(
+    '/',
+    {
+      preValidation: [fastify.authenticate],
+    },
+    habitsController.update,
+  )
+  fastify.get(
+    '/',
+    {
+      preValidation: [fastify.authenticate],
+    },
+    habitsController.getUserHabits,
+  )
+  fastify.delete(
+    '/:habitId',
+    {
+      preValidation: [fastify.authenticate],
+    },
+    habitsController.remove,
+  )
   done()
 }
