@@ -1,39 +1,17 @@
-import fastify from 'fastify'
-import config from './config.js'
-import jwt from 'jsonwebtoken'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-import usersRoutes from './routes/users.router.js'
-import authRoutes from './routes/auth.router.js'
-import habitsRoutes from './routes/habits.router.js'
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 
-import codes from './utils/status-codes.js'
-
-const app = fastify({ logger: true })
-
-app.decorate('authenticate', async function (request, reply, done) {
-  try {
-    await jwt.verify(request.headers.authorization, process.env.JWT_KEY)
-    done()
-  } catch (err) {
-    if (err instanceof jwt.JsonWebTokenError) {
-      reply.status(codes.UNAUTHORIZED).send()
-    } else {
-      reply.status(codes.INTERNAL_SERVER_ERROR).send()
-    }
-  }
-})
-
-app.register(usersRoutes, { prefix: '/api/v1/users' })
-app.register(authRoutes, { prefix: '/api/v1/auth' })
-app.register(habitsRoutes, { prefix: '/api/v1/habits' })
-
-const start = async () => {
-  try {
-    await app.listen(config.port)
-  } catch (err) {
-    app.log.error(err)
-    process.exit(1)
-  }
-}
-
-start()
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
