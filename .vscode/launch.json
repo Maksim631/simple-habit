@@ -5,8 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug bot",
+            "name": "Debug server",
             "request": "launch",
+            "cwd": "${workspaceFolder}/server",
             "runtimeArgs": [
                 "run-script",
                 "start:watch"

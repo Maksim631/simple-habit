@@ -1,4 +1,5 @@
 import fastify from 'fastify'
+import fastifyCors from 'fastify-cors'
 import config from './config.js'
 import jwt from 'jsonwebtoken'
 
@@ -9,6 +10,18 @@ import habitsRoutes from './routes/habits.router.js'
 import codes from './utils/status-codes.js'
 
 const app = fastify({ logger: true })
+
+app.register(fastifyCors, {
+  origin: (origin, cb) => {
+    if (/localhost/.test(origin)) {
+      //  Request from localhost will pass
+      cb(null, true)
+      return
+    }
+    // Generate an error on other origins, disabling access
+    cb(new Error('Not allowed'))
+  },
+})
 
 app.decorate('authenticate', async function (request, reply, done) {
   try {

@@ -20,7 +20,7 @@ async function issueTokenPair(userId) {
 
 export async function register(request, reply) {
   const user = request.body
-  const isAlreadyExist = await usersDAO.find(user.name)
+  const isAlreadyExist = await usersDAO.find(user.email)
   if (!!isAlreadyExist) {
     reply.code(codes.FORBIDDEN).send()
   } else {
