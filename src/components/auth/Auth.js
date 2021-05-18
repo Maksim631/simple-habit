@@ -5,12 +5,13 @@ import { login } from '../../api/auth';
 
 import './Auth.css';
 
-export function Auth() {
+export function Auth(props) {
 	const cookies = new Cookies();
 
 	const onFinish = async (values) => {
 		const result = await login(values);
 		if (result) {
+			props.onComplete()
 			cookies.set('Authorization', result.data.token);
 			cookies.set('refreshToken', result.data.refreshToken);
 			notification.success({

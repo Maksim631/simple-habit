@@ -2,7 +2,7 @@ import axios from 'axios';
 const server = 'http://localhost:22000/' + 'api/v1/auth/';
 
 export async function register(user) {
-	axios
+	return axios
 		.post(`${server}register`, { ...user })
 		.then((response) => {
 			if (response.status === 200) {
@@ -16,7 +16,7 @@ export async function register(user) {
 }
 
 export async function login(credentials) {
-	axios
+	return axios
 		.post(`${server}login`, { ...credentials })
 		.then((response) => {
 			if (response.status === 200) {

@@ -4,16 +4,17 @@ import { register } from '../../api/auth.js';
 
 import './Registration.css';
 
-export function Registration() {
+export function Registration(props) {
 	const onFinish = async (values) => {
 		const result = await register(values);
 		if (result) {
+			props.onComplete();
 			notification.success({
 				message: 'Registration completed',
 			});
 		} else {
 			notification.error({
-				message: 'Somthing went wrong',
+				message: 'Something went wrong',
 			});
 		}
 	};
