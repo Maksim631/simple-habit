@@ -1,22 +1,25 @@
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, notification } from 'antd';
 
-import { register } from '../../api/auth.js'
+import { register } from '../../api/auth.js';
 
 import './Registration.css';
 
 export function Registration() {
 	const onFinish = async (values) => {
 		const result = await register(values);
-		console.log('Success:', values);
-		console.log('Success:', result);
-	};
-
-	const onFinishFailed = (errorInfo) => {
-		console.log('Failed:', errorInfo);
+		if (result) {
+			notification.success({
+				message: 'Registration completed',
+			});
+		} else {
+			notification.error({
+				message: 'Somthing went wrong',
+			});
+		}
 	};
 
 	return (
-		<Form name="basic" onFinish={onFinish} onFinishFailed={onFinishFailed}>
+		<Form name="registration" onFinish={onFinish}>
 			<Form.Item
 				label="Username"
 				name="name"
