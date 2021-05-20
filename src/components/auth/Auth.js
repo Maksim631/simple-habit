@@ -1,21 +1,18 @@
 import { Form, Input, Button, notification } from 'antd';
-import Cookies from 'universal-cookie';
 
-import { login } from '../../api/auth';
+import { useAuth } from '../../hooks/use-auth';
 
 import './Auth.css';
 
 export function Auth(props) {
-	const cookies = new Cookies();
+	const auth = useAuth();
 
 	const onFinish = async (values) => {
-		const result = await login(values);
+		const result = await auth.login(values);
 		if (result) {
-			props.onComplete()
-			cookies.set('Authorization', result.data.token);
-			cookies.set('refreshToken', result.data.refreshToken);
+			// props.onComplete();
 			notification.success({
-				message: 'Successfully login',
+				message: `Welcome back, ${result.name}`,
 			});
 		} else {
 			notification.error({

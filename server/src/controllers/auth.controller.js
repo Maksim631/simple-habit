@@ -50,7 +50,11 @@ export async function login(request, reply) {
       dbUser.password,
     )
     if (isPasswordCorrect) {
-      const response = await issueTokenPair(dbUser._id)
+      const tokens = await issueTokenPair(dbUser._id)
+      const response = {
+        user: { name: dbUser.name, email: dbUser.email },
+        ...tokens,
+      }
       reply.code(codes.OK).send(response)
     } else {
       reply.code(codes.FORBIDDEN).send()
