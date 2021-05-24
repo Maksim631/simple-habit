@@ -7,7 +7,7 @@ export default function (fastify, opts, done) {
   fastify.post(
     '/logout',
     {
-      preValidation: [fastify.authenticate],
+      preValidation: fastify.authenticate,
     },
     authController.logout,
   )

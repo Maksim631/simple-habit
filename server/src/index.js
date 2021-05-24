@@ -26,7 +26,6 @@ app.register(fastifyCors, {
 app.decorate('authenticate', async function (request, reply, done) {
   try {
     await jwt.verify(request.headers.authorization, process.env.JWT_KEY)
-    done()
   } catch (err) {
     if (err instanceof jwt.JsonWebTokenError) {
       reply.status(codes.UNAUTHORIZED).send()

@@ -75,7 +75,8 @@ export async function refresh(request, reply) {
 }
 
 export async function logout(request, reply) {
-  const { userId } = request.body
-  await refreshDAO.remove(userId)
+  const token = request.headers.authorization
+  const { id: tokenUserId } = jwt.decode(token)
+  await refreshDAO.remove(tokenUserId)
   reply.code(codes.OK).send()
 }

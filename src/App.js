@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import React from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import './App.css';
+import HeaderLogin from './components/HeaderLogin';
 import PrivateRoute from './components/PrivateRoute';
 import { ProvideAuth } from './hooks/use-auth';
 import AuthorizataionPage from './pages/AuthorizationPage';
@@ -16,8 +17,9 @@ function App() {
 				<ProvideAuth>
 					<Layout>
 						<Header>
-							<Link to="/login">Home</Link>
-							<Link to="/">Habit</Link>
+							<HeaderLogin />
+							{/* <Link to="/login">Home</Link>
+							<Link to="/">Habit</Link> */}
 						</Header>
 						<Switch>
 							<Route path="/login">

@@ -37,22 +37,26 @@ const useProvideAuth = () => {
 				return false;
 			})
 			.catch((err) => {
+				console.error(err);
 				return false;
 			});
 	};
 
 	const logout = async () => {
-		localStorage.removeItem('user');
-		setUser(null);
 		return client
 			.post(`${server}logout`)
 			.then((response) => {
 				if (response.status === 200) {
+					localStorage.removeItem('user');
+					cookies.remove('Authorization')
+					cookies.remove('refreshToken')
+					setUser(null);
 					return true;
 				}
 				return false;
 			})
 			.catch((err) => {
+				console.error(err);
 				return false;
 			});
 	};

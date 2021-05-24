@@ -1,19 +1,21 @@
-import { Form, Input, Button, notification } from 'antd';
-
+import { Button, Form, Input, notification } from 'antd';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../hooks/use-auth';
-
 import './Auth.css';
+
+
 
 export function Auth(props) {
 	const auth = useAuth();
+	const history = useHistory();
 
 	const onFinish = async (values) => {
 		const result = await auth.login(values);
 		if (result) {
-			// props.onComplete();
 			notification.success({
 				message: `Welcome back, ${result.name}`,
 			});
+			history.push('/');
 		} else {
 			notification.error({
 				message: "Couldn't login",

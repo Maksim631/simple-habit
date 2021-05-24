@@ -17,7 +17,7 @@ client.interceptors.request.use(
 			...config,
 		};
 
-		newConfig.headers.Authorization = `Bearer ${this.token}`;
+		newConfig.headers.Authorization = token;
 		return newConfig;
 	},
 	(e) => Promise.reject(e)
